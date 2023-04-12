@@ -1,8 +1,8 @@
-# foundry-recent-deploy
+# foundry-devops
 
 A repo to get the most recent deployment from a given environment in foundry. This way, you can do scripting off previous deployments in solidity. 
 
-- [foundry-recent-deploy](#foundry-recent-deploy)
+- [foundry-devops](#foundry-devops)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Installation](#installation)
@@ -24,13 +24,13 @@ A repo to get the most recent deployment from a given environment in foundry. Th
 ## Installation
 
 ```
-forge install ChainAccelOrg/foundry-recent-deploy
+forge install ChainAccelOrg/foundry-devops
 ```
 
 ## Usage
 
 ```javascript
-import {DevOpsTools} from "foundry-recent-deploy/DevOpsTools.sol";
+import {DevOpsTools} from "foundry-devops/src/DevOpsTools.sol";
 import {MyContract} from "my-contract/MyContract.sol";
 .
 .
