@@ -2,12 +2,18 @@
 
 contractName=$1
 chainId=$2
-path=$3
 
-if [ -z "$contractName" ] || [ -z "$chainId" ] || [ -z "$path" ]; then
-  echo "Usage: $0 <contractName> <chainId> <path>"
+if [ -z "$3" ]; then
+  path="../../broadcast"
+else
+  path="$3"
+fi
+
+if [ -z "$contractName" ] || [ -z "$chainId" ] ; then
+  echo "Usage: $0 <contractName> <chainId> [path]"
   exit 1
 fi
+
 
 latestTimestamp=0
 latestContractAddress=""

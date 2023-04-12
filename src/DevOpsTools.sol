@@ -10,6 +10,18 @@ library DevOpsTools {
 
     function get_most_recent_deployment(
         string memory contractName,
+        uint256 chainId
+    ) public returns (address) {
+        return
+            get_most_recent_deployment(
+                contractName,
+                chainId,
+                "../../broadcast"
+            );
+    }
+
+    function get_most_recent_deployment(
+        string memory contractName,
         uint256 chainId,
         string memory path
     ) public returns (address) {
