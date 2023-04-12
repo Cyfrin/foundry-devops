@@ -16,7 +16,7 @@ library DevOpsTools {
             get_most_recent_deployment(
                 contractName,
                 chainId,
-                "../../broadcast"
+                "../../../broadcast"
             );
     }
 
