@@ -1,0 +1,50 @@
+{
+  "transactions": [
+    {
+      "hash": "0x6f4577f69ed7d96b271a96deb71fbc490598eb99d37cfd5f6f8e46eb982a4590",
+      "transactionType": "CREATE",
+      "contractName": "Stuff",
+      "contractAddress": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "function": null,
+      "arguments": null,
+      "rpc": "http://127.0.0.1:8545",
+      "transaction": {
+        "type": "0x02",
+        "from": "0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266",
+        "gas": "0x191eb",
+        "value": "0x0",
+        "data": "0x6080604052348015600f57600080fd5b50607780601d6000396000f3fe6080604052348015600f57600080fd5b506004361060285760003560e01c8063cf33c3be14602d575b600080fd5b600760405190815260200160405180910390f3fea264697066735822122018510bdeac5343a57cccf367fda88793df7ffd26e6238a89c2521a68343c5b8e64736f6c63430008130033",
+        "nonce": "0x6",
+        "accessList": []
+      },
+      "additionalContracts": [],
+      "isFixedGasLimit": false
+    }
+  ],
+  "receipts": [
+    {
+      "transactionHash": "0x6f4577f69ed7d96b271a96deb71fbc490598eb99d37cfd5f6f8e46eb982a4590",
+      "transactionIndex": "0x0",
+      "blockHash": "0x090ce68d4a9db16bcd295862d321f854a33bd9d1bb6f9e7911893fcdcbe54eba",
+      "blockNumber": "0x7",
+      "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+      "to": null,
+      "cumulativeGasUsed": "0x1352b",
+      "gasUsed": "0x1352b",
+      "contractAddress": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "logs": [],
+      "status": "0x1",
+      "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "type": "0x2",
+      "effectiveGasPrice": "0xcdc867ac"
+    }
+  ],
+  "libraries": [],
+  "pending": [],
+  "path": "/Users/patrick/code/foundry-recent-deploy/broadcast/DeployStuff.s.sol/31337/run-latest.json",
+  "returns": {},
+  "timestamp": 1681340535,
+  "chain": 31337,
+  "multi": false,
+  "commit": "0544b38"
+}
