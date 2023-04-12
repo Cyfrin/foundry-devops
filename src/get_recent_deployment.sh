@@ -2,16 +2,17 @@
 
 contractName=$1
 chainId=$2
+path=$3
 
-if [ -z "$contractName" ] || [ -z "$chainId" ]; then
-  echo "Usage: $0 <contractName> <chainId>"
+if [ -z "$contractName" ] || [ -z "$chainId" ] || [ -z "$path" ]; then
+  echo "Usage: $0 <contractName> <chainId> <path>"
   exit 1
 fi
 
 latestTimestamp=0
 latestContractAddress=""
 
-files=$(find broadcast -name "run-latest.json" -type f)
+files=$(find $path -name "run-latest.json" -type f)
 
 for file in $files; do
   if [[ $file == *"/$chainId/"* ]]; then

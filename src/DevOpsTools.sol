@@ -10,13 +10,17 @@ library DevOpsTools {
 
     function get_most_recent_deployment(
         string memory contractName,
-        uint256 chainId
+        uint256 chainId,
+        string memory path
     ) public returns (address) {
-        string[] memory getRecentDeployment = new string[](4);
+        string[] memory getRecentDeployment = new string[](5);
+
         getRecentDeployment[0] = "bash";
         getRecentDeployment[1] = "./src/get_recent_deployment.sh";
         getRecentDeployment[2] = contractName;
         getRecentDeployment[3] = uint2str(chainId);
+        getRecentDeployment[4] = path;
+
         bytes memory retData = vm.ffi(getRecentDeployment);
         address returnedAddress = address(uint160(bytes20(retData)));
         if (returnedAddress != address(0)) {

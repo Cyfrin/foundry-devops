@@ -9,11 +9,13 @@ contract DevOpsToolsTest is Test {
         0xa513E6E4b8f2a923D98304ec87F64353C4D5C853;
     string public constant CONTRACT_NAME = "Stuff";
     uint256 public constant CHAIN_ID = 31337;
+    string public constant PATH = "broadcast";
 
     function testGetMostRecentlyDeployedContract() public {
         address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
             CONTRACT_NAME,
-            CHAIN_ID
+            CHAIN_ID,
+            PATH
         );
         assertEq(mostRecentDeployment, EXPECTED_ADDRESS);
     }
