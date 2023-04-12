@@ -4,7 +4,7 @@ contractName=$1
 chainId=$2
 
 if [ -z "$3" ]; then
-  path="../../../broadcast"
+  path="../../broadcast"
 else
   path="$3"
 fi
