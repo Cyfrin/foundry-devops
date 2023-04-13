@@ -1,10 +1,16 @@
 #!/bin/bash
 
+# Get the script's own directory
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+
+# Move up two levels to get the project root directory
+PROJECT_ROOT_DIR="$(dirname "$(dirname "$SCRIPT_DIR")")"
+
 contractName=$1
 chainId=$2
 
 if [ -z "$3" ]; then
-  path="../../broadcast"
+  path="./broadcast"
 else
   path="$3"
 fi
