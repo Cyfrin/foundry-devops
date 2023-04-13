@@ -36,7 +36,7 @@ import {MyContract} from "my-contract/MyContract.sol";
 .
 .
 function interactWithPreviouslyDeployedContracts() public {
-    address contractAddress = DevOpsTools.getMostRecentDeployment("my-contract-name", block.chainid);
+    address contractAddress = DevOpsTools.get_most_recent_deployment("my-contract-name", block.chainid);
     MyContract myContract = MyContract(contractAddress);
     myContract.doSomething();
 }
