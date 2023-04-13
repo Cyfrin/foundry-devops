@@ -21,4 +21,17 @@ contract DevOpsToolsTest is Test {
         );
         assertEq(mostRecentDeployment, EXPECTED_ADDRESS);
     }
+
+    function testGetMostRecentlyDeployedEvenWhenMultipleAreDeployed() public {
+        string memory contractName = "FundMe";
+        uint256 chainId = 1234;
+        address expectedAddress = 0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9;
+        address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
+            contractName,
+            chainId,
+            SEARCH_PATH,
+            SCRIPT_PATH
+        );
+        assertEq(mostRecentDeployment, expectedAddress);
+    }
 }

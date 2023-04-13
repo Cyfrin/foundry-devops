@@ -29,13 +29,18 @@ files=$(find $path -name "run-latest.json" -type f)
 for file in $files; do
   if [[ $file == *"/$chainId/"* ]]; then
     timestamp=$(jq '.timestamp' "$file")
-    currentTransactionType=$(jq -r '.transactions[0].transactionType' "$file")
-    currentContractName=$(jq -r '.transactions[0].contractName' "$file")
+    
+    transactions_length=$(jq '.transactions | length' "$file")
 
-    if [ "$currentTransactionType" == "CREATE" ] && [ "$currentContractName" == "$contractName" ] && [ $timestamp -gt $latestTimestamp ]; then
-      latestTimestamp=$timestamp
-      latestContractAddress=$(jq -r '.transactions[0].contractAddress' "$file")
-    fi
+    for ((i=0; i<$transactions_length; i++)); do
+      currentTransactionType=$(jq -r ".transactions[$i].transactionType" "$file")
+      currentContractName=$(jq -r ".transactions[$i].contractName" "$file")
+
+      if [ "$currentTransactionType" == "CREATE" ] && [ "$currentContractName" == "$contractName" ] && [ $timestamp -gt $latestTimestamp ]; then
+        latestTimestamp=$timestamp
+        latestContractAddress=$(jq -r ".transactions[$i].contractAddress" "$file")
+      fi
+    done
   fi
 done
 
