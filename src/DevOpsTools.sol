@@ -28,7 +28,7 @@ library DevOpsTools {
 
     function cleanStringPath(
         string memory stringToClean
-    ) public returns (string memory) {
+    ) public pure returns (string memory) {
         bytes memory inputBytes = bytes(stringToClean);
         uint256 start = 0;
         uint256 end = inputBytes.length;
