@@ -2,6 +2,9 @@
 
 A repo to get the most recent deployment from a given environment in foundry. This way, you can do scripting off previous deployments in solidity. 
 
+It will look through your `broadcast` folder at your most recent deployment. 
+
+
 - [foundry-devops](#foundry-devops)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
