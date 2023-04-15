@@ -3,7 +3,7 @@
 pragma solidity >=0.8.13 <0.9.0;
 
 import {Vm} from "forge-std/Vm.sol";
-import {console} from "forge-std/Console.sol";
+import {console} from "forge-std/console.sol";
 
 library DevOpsTools {
     Vm public constant vm =
