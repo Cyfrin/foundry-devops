@@ -27,7 +27,7 @@ It will look through your `broadcast` folder at your most recent deployment.
 ## Installation
 
 ```
-forge install ChainAccelOrg/foundry-devops
+forge install Cyfrin/foundry-devops
 ```
 
 ## Usage
