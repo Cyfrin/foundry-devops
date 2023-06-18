@@ -52,7 +52,7 @@ function interactWithPreviouslyDeployedContracts() public {
 PRs are welcome!
 
 ```
-git clone https://github.com/ChainAccelOrg/foundry-devops
+git clone https://github.com/Cyfrin/foundry-devops
 cd foundry-devops
 forge install
 ```
