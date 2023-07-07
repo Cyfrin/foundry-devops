@@ -29,7 +29,7 @@ It will look through your `broadcast` folder at your most recent deployment.
 ## Installation
 
 ```
-forge install Cyfrin/foundry-devops
+forge install Cyfrin/foundry-devops --no-commit
 ```
 
 ## Usage
