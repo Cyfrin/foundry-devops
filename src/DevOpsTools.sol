@@ -16,7 +16,7 @@ library DevOpsTools {
     function get_most_recent_deployment(
         string memory contractName,
         uint256 chainId
-    ) public returns (address) {
+    ) internal returns (address) {
         return
             get_most_recent_deployment(
                 contractName,
@@ -28,7 +28,7 @@ library DevOpsTools {
 
     function cleanStringPath(
         string memory stringToClean
-    ) public pure returns (string memory) {
+    ) internal pure returns (string memory) {
         bytes memory inputBytes = bytes(stringToClean);
         uint256 start = 0;
         uint256 end = inputBytes.length;
@@ -70,7 +70,7 @@ library DevOpsTools {
         uint256 chainId,
         string memory relativeBroadcastPath,
         string memory relativeScriptPath
-    ) public returns (address) {
+    ) internal returns (address) {
         relativeBroadcastPath = cleanStringPath(relativeBroadcastPath);
         relativeScriptPath = cleanStringPath(relativeScriptPath);
 
