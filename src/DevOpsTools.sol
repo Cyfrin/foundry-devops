@@ -24,6 +24,21 @@ struct BroadcastTransaction {
     string functionSig;
     bytes32 hash;
     bool isFixedGasLimit;
+    BroadcastTransactionDetail transaction;
+    string transactionType;
+}
+
+/** The broadcast files committed in April 2023 had reference to an rpc property, which seems to no longer be written. */
+struct LegacyBroadcastTransaction {
+    // This is a guess that additionalContracts is a string array
+    string[] additionalContracts;
+    string arguments;
+    address contractAddress;
+    string contractName;
+    // json key = function
+    string functionSig;
+    bytes32 hash;
+    bool isFixedGasLimit;
     string rpc;
     BroadcastTransactionDetail transaction;
     string transactionType;
@@ -154,17 +169,33 @@ library DevOpsTools {
     ) internal view returns (address) {
         bytes memory transactionsBytes = json.parseRaw("$.transactions");
 
-        BroadcastTransaction[] memory transactions = abi.decode(
-            transactionsBytes,
-            (BroadcastTransaction[])
-        );
+        if (vm.keyExists(json, "$.transactions[0].rpc")) {
+            LegacyBroadcastTransaction[] memory transactions = abi.decode(
+                transactionsBytes,
+                (LegacyBroadcastTransaction[])
+            );
 
-        console.log("Inspecting %s transactions", transactions.length);
+            console.log("Inspecting %s transactions", transactions.length);
 
-        for (uint256 i = 0; i < transactions.length; i++) {
-            BroadcastTransaction memory transaction = transactions[i];
-            if (transaction.contractName.isEqualTo(contractName)) {
-                latestAddress = transaction.contractAddress;
+            for (uint256 i = 0; i < transactions.length; i++) {
+                LegacyBroadcastTransaction memory transaction = transactions[i];
+                if (transaction.contractName.isEqualTo(contractName)) {
+                    latestAddress = transaction.contractAddress;
+                }
+            }
+        } else {
+            BroadcastTransaction[] memory transactions = abi.decode(
+                transactionsBytes,
+                (BroadcastTransaction[])
+            );
+
+            console.log("Inspecting %s transactions", transactions.length);
+
+            for (uint256 i = 0; i < transactions.length; i++) {
+                BroadcastTransaction memory transaction = transactions[i];
+                if (transaction.contractName.isEqualTo(contractName)) {
+                    latestAddress = transaction.contractAddress;
+                }
             }
         }
         return latestAddress;

@@ -52,4 +52,18 @@ contract DevOpsToolsTest is Test {
             SEARCH_PATH
         );
     }
+
+    // All other tests use what appear to be legacy broadcast files
+    // This one uses the newer type with no rpc property
+    function testNonLegacyBroadcast() public {
+        string memory contractName = "NewStuff";
+        uint256 chainId = 31337;
+        address expectedAddress = 0x5FbDB2315678afecb367f032d93F642f64180aa3;
+        address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
+            contractName,
+            chainId,
+            SEARCH_PATH
+        );
+        assertEq(mostRecentDeployment, expectedAddress);
+    }
 }
