@@ -76,52 +76,11 @@ library DevOpsTools {
             );
     }
 
-    function cleanStringPath(
-        string memory stringToClean
-    ) public pure returns (string memory) {
-        bytes memory inputBytes = bytes(stringToClean);
-        uint256 start = 0;
-        uint256 end = inputBytes.length;
-
-        // Find the start of the non-whitespace characters
-        for (uint256 i = 0; i < inputBytes.length; i++) {
-            if (inputBytes[i] != " ") {
-                start = i;
-                break;
-            }
-        }
-
-        // Find the end of the non-whitespace characters
-        for (uint256 i = inputBytes.length; i > 0; i--) {
-            if (inputBytes[i - 1] != " ") {
-                end = i;
-                break;
-            }
-        }
-
-        // Remove the leading '.' if it exists
-        if (inputBytes[start] == ".") {
-            start += 1;
-        }
-
-        // Create a new bytes array for the trimmed string
-        bytes memory trimmedBytes = new bytes(end - start);
-
-        // Copy the trimmed characters to the new bytes array
-        for (uint256 i = 0; i < trimmedBytes.length; i++) {
-            trimmedBytes[i] = inputBytes[start + i];
-        }
-
-        return string(trimmedBytes);
-    }
-
     function get_most_recent_deployment(
         string memory contractName,
         uint256 chainId,
         string memory relativeBroadcastPath
     ) public view returns (address) {
-        relativeBroadcastPath = cleanStringPath(relativeBroadcastPath);
-
         address latestAddress = address(0);
         uint256 lastTimestamp;
 
