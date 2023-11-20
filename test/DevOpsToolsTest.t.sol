@@ -5,21 +5,18 @@ import {Test} from "forge-std/Test.sol";
 import {DevOpsTools} from "../src/DevOpsTools.sol";
 
 contract DevOpsToolsTest is Test {
-    address public constant EXPECTED_ADDRESS =
-        0xa513E6E4b8f2a923D98304ec87F64353C4D5C853;
-    string public constant CONTRACT_NAME = "Stuff";
-    uint256 public constant CHAIN_ID = 31337;
     string public constant SEARCH_PATH = "broadcast";
-    string public constant SCRIPT_PATH = "./src/get_recent_deployment.sh";
 
     function testGetMostRecentlyDeployedContract() public {
+        string memory contractName = "Stuff";
+        uint256 chainId = 31337;
+        address expectedAddress = 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853;
         address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
-            CONTRACT_NAME,
-            CHAIN_ID,
-            SEARCH_PATH,
-            SCRIPT_PATH
+            contractName,
+            chainId,
+            SEARCH_PATH
         );
-        assertEq(mostRecentDeployment, EXPECTED_ADDRESS);
+        assertEq(mostRecentDeployment, expectedAddress);
     }
 
     function testGetMostRecentlyDeployedEvenWhenMultipleAreDeployed() public {
@@ -29,8 +26,43 @@ contract DevOpsToolsTest is Test {
         address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
             contractName,
             chainId,
-            SEARCH_PATH,
-            SCRIPT_PATH
+            SEARCH_PATH
+        );
+        assertEq(mostRecentDeployment, expectedAddress);
+    }
+
+    function testExpectRevertIfNoRun() public {
+        string memory contractName = "FundMe";
+        uint256 chainId = 9999;
+        vm.expectRevert("No run-latest.json file found for specified chain");
+        DevOpsTools.get_most_recent_deployment(
+            contractName,
+            chainId,
+            SEARCH_PATH
+        );
+    }
+
+    function testExpectRevertIfNoDeployment() public {
+        string memory contractName = "MissingContract";
+        uint256 chainId = 1234;
+        vm.expectRevert("No contract deployed");
+        DevOpsTools.get_most_recent_deployment(
+            contractName,
+            chainId,
+            SEARCH_PATH
+        );
+    }
+
+    // All other tests use what appear to be legacy broadcast files
+    // This one uses the newer type with no rpc property
+    function testNonLegacyBroadcast() public {
+        string memory contractName = "NewStuff";
+        uint256 chainId = 31337;
+        address expectedAddress = 0x5FbDB2315678afecb367f032d93F642f64180aa3;
+        address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
+            contractName,
+            chainId,
+            SEARCH_PATH
         );
         assertEq(mostRecentDeployment, expectedAddress);
     }
