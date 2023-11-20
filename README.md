@@ -31,6 +31,16 @@ forge install Cyfrin/foundry-devops --no-commit
 
 ## Usage
 
+1. Update your `foundry.toml` to have read permissions on the `broadcast` folder.
+
+```
+fs_permissions = [{ access = "read", path = "./broadcast" }]
+```
+
+2. Import the package, and call `DevOpsTools.get_most_recent_deployment("MyContract", chainid);`
+
+ie:
+
 ```javascript
 import {DevOpsTools} from "lib/foundry-devops/src/DevOpsTools.sol";
 import {MyContract} from "my-contract/MyContract.sol";
