@@ -8,11 +8,13 @@ import {StdCheatsSafe} from "forge-std/StdCheats.sol";
 import {console} from "forge-std/console.sol";
 import {StringUtils} from "./StringUtils.sol";
 
-/** Note: Though the arguments property is a string array, when there are no arguments, the json produced has a null value.  The null value
-          will not deserialize back into an empty string array.  We could have used two different types and used a try / catch to use the correct 
-          type, but to keep things simple, we're deserializing arguments to a string, which allows abi.decode to not revert for a string array 
-          and a null value, but the the arguments value is not usable.  Given the scope of the get_most_recent_deployment function, this seems an 
-          acceptable trade-off.  Somewhat related: https://github.com/foundry-rs/foundry/issues/3731  */
+/**
+ * Note: Though the arguments property is a string array, when there are no arguments, the json produced has a null value.  The null value
+ *           will not deserialize back into an empty string array.  We could have used two different types and used a try / catch to use the correct
+ *           type, but to keep things simple, we're deserializing arguments to a string, which allows abi.decode to not revert for a string array
+ *           and a null value, but the the arguments value is not usable.  Given the scope of the get_most_recent_deployment function, this seems an
+ *           acceptable trade-off.  Somewhat related: https://github.com/foundry-rs/foundry/issues/3731
+ */
 
 struct BroadcastTransaction {
     // This is a guess that additionalContracts is a string array
@@ -28,7 +30,9 @@ struct BroadcastTransaction {
     string transactionType;
 }
 
-/** The broadcast files committed in April 2023 had reference to an rpc property, which seems to no longer be written. */
+/**
+ * The broadcast files committed in April 2023 had reference to an rpc property, which seems to no longer be written.
+ */
 struct LegacyBroadcastTransaction {
     // This is a guess that additionalContracts is a string array
     string[] additionalContracts;
@@ -59,21 +63,12 @@ library DevOpsTools {
     using stdJson for string;
     using StringUtils for string;
 
-    Vm public constant vm =
-        Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
+    Vm public constant vm = Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
 
     string public constant RELATIVE_BROADCAST_PATH = "./broadcast";
 
-    function get_most_recent_deployment(
-        string memory contractName,
-        uint256 chainId
-    ) public view returns (address) {
-        return
-            get_most_recent_deployment(
-                contractName,
-                chainId,
-                RELATIVE_BROADCAST_PATH
-            );
+    function get_most_recent_deployment(string memory contractName, uint256 chainId) public view returns (address) {
+        return get_most_recent_deployment(contractName, chainId, RELATIVE_BROADCAST_PATH);
     }
 
     function get_most_recent_deployment(
@@ -88,10 +83,7 @@ library DevOpsTools {
         Vm.DirEntry[] memory entries = vm.readDir(relativeBroadcastPath, 3);
         for (uint256 i = 0; i < entries.length; i++) {
             Vm.DirEntry memory entry = entries[i];
-            if (
-                entry.path.contains(vm.toString(chainId)) &&
-                entry.path.contains("run-latest.json")
-            ) {
+            if (entry.path.contains(vm.toString(chainId)) && entry.path.contains("run-latest.json")) {
                 runProcessed = true;
                 string memory json = vm.readFile(entry.path);
 
@@ -101,11 +93,7 @@ library DevOpsTools {
                     // This broadcast is later than the last one we know about, process txns
                     console.log("Processing: ", entry.path);
 
-                    latestAddress = processRun(
-                        json,
-                        contractName,
-                        latestAddress
-                    );
+                    latestAddress = processRun(json, contractName, latestAddress);
                 }
             }
         }
@@ -121,18 +109,16 @@ library DevOpsTools {
         }
     }
 
-    function processRun(
-        string memory json,
-        string memory contractName,
-        address latestAddress
-    ) internal view returns (address) {
+    function processRun(string memory json, string memory contractName, address latestAddress)
+        internal
+        view
+        returns (address)
+    {
         bytes memory transactionsBytes = json.parseRaw("$.transactions");
 
         if (vm.keyExists(json, "$.transactions[0].rpc")) {
-            LegacyBroadcastTransaction[] memory transactions = abi.decode(
-                transactionsBytes,
-                (LegacyBroadcastTransaction[])
-            );
+            LegacyBroadcastTransaction[] memory transactions =
+                abi.decode(transactionsBytes, (LegacyBroadcastTransaction[]));
 
             console.log("Inspecting %s transactions", transactions.length);
 
@@ -143,11 +129,7 @@ library DevOpsTools {
                 }
             }
         } else {
-            BroadcastTransaction[] memory transactions = abi.decode(
-                transactionsBytes,
-                (BroadcastTransaction[])
-            );
-
+            BroadcastTransaction[] memory transactions = abi.decode(transactionsBytes, (BroadcastTransaction[]));
             console.log("Inspecting %s transactions", transactions.length);
 
             for (uint256 i = 0; i < transactions.length; i++) {
