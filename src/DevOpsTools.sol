@@ -67,7 +67,7 @@ library DevOpsTools {
 
     string public constant RELATIVE_BROADCAST_PATH = "./broadcast";
 
-    function get_most_recent_deployment(string memory contractName, uint256 chainId) public view returns (address) {
+    function get_most_recent_deployment(string memory contractName, uint256 chainId) internal view returns (address) {
         return get_most_recent_deployment(contractName, chainId, RELATIVE_BROADCAST_PATH);
     }
 
