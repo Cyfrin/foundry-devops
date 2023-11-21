@@ -10,7 +10,7 @@ contract DevOpsToolsTest is Test {
     function testGetMostRecentlyDeployedContract() public {
         string memory contractName = "Stuff";
         uint256 chainId = 31337;
-        address expectedAddress = 0xa513E6E4b8f2a923D98304ec87F64353C4D5C853;
+        address expectedAddress = 0x5FbDB2315678afecb367f032d93F642f64180aa3;
         address mostRecentDeployment = DevOpsTools.get_most_recent_deployment(
             contractName,
             chainId,
@@ -34,7 +34,7 @@ contract DevOpsToolsTest is Test {
     function testExpectRevertIfNoRun() public {
         string memory contractName = "FundMe";
         uint256 chainId = 9999;
-        vm.expectRevert("No run-latest.json file found for specified chain");
+        vm.expectRevert("No deployment artifacts were found for specified chain");
         DevOpsTools.get_most_recent_deployment(
             contractName,
             chainId,
