@@ -11,3 +11,8 @@ docs/
 
 # Dotenv file
 .env
+
+.DS_Store
+*.icloud
+
+*report.md
