@@ -1,9 +1,0 @@
-{
-    "issue_count" : {
-        "critical": 0,
-        "high": 0,
-        "medium": 7,
-        "low": 1,
-        "nc": 5
-    }
-}

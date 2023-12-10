@@ -24,13 +24,7 @@ library AderynRunnerTool {
 
     string public constant RELATIVE_ADERYN_PATH = "aderyn";
 
-    function run_with(string memory path, string memory output, string memory /*jsonOutput*/) public {
-
-        /**
-         * As of now, aderyn doesnt support json output, so once that's in place 
-         * we can fill this
-         */
-
+    function run_with(string memory path, string memory output) public {
         string[] memory inputs = new string[](4);
         inputs[0] = path;
         inputs[1] = ".";
@@ -40,7 +34,7 @@ library AderynRunnerTool {
     }
 
     function run_with_defaults() public {
-        run_with(RELATIVE_ADERYN_PATH, "report.md", "./reports/my_report.json");
+        run_with(RELATIVE_ADERYN_PATH, "report.md");
     }
 
     function get_issue_count(string memory filePath) public view returns (IssueCount memory) {
