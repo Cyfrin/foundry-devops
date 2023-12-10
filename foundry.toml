@@ -2,6 +2,6 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-fs_permissions = [{ access = "read", path = "./broadcast" }]
+fs_permissions = [{ access = "read", path = "./broadcast" }, { access = "read", path = "./reports" }]
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

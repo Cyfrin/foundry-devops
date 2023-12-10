@@ -14,5 +14,5 @@ docs/
 
 .DS_Store
 *.icloud
-
+*.csv
 *report.md
