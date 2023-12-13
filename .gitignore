@@ -11,3 +11,10 @@ docs/
 
 # Dotenv file
 .env
+
+.DS_Store
+*.icloud
+*.csv
+*report.md
+reports/*.*
+
