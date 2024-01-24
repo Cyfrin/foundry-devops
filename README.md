@@ -29,6 +29,14 @@ It will look through your `broadcast` folder at your most recent deployment.
 forge install Cyfrin/foundry-devops --no-commit
 ```
 
+- Update forge-std to use newer FS cheatcodes
+```
+forge rm forge-std -f
+```
+```
+forge install foundry-rs/forge-std@v1.7.0
+```
+
 ## Usage
 
 1. Update your `foundry.toml` to have read permissions on the `broadcast` folder.
