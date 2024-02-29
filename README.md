@@ -31,10 +31,13 @@ forge install Cyfrin/foundry-devops --no-commit
 
 - Update forge-std to use newer FS cheatcodes
 ```
-forge rm forge-std -f
+git rm -rf lib/forge-std
 ```
 ```
-forge install foundry-rs/forge-std@v1.7.0
+ rm -rf lib/forge-std
+```
+```
+ forge install foundry-rs/forge-std@v1.7.0 --no-commit
 ```
 
 ## Usage
