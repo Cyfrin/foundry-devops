@@ -25,7 +25,7 @@ library DevOpsTools {
         string memory contractName,
         uint256 chainId,
         string memory relativeBroadcastPath
-    ) public view returns (address) {
+    ) internal view returns (address) {
         address latestAddress = address(0);
         uint256 lastTimestamp;
 
