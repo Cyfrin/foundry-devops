@@ -8,12 +8,11 @@ import {StdCheatsSafe} from "forge-std/StdCheats.sol";
 import {console} from "forge-std/console.sol";
 import {StringUtils} from "./StringUtils.sol";
 
-
 library DevOpsTools {
     using stdJson for string;
     using StringUtils for string;
 
-    Vm public constant vm = Vm(address(bytes20(uint160(uint256(keccak256("hevm cheat code"))))));
+    Vm public constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
 
     string public constant RELATIVE_BROADCAST_PATH = "./broadcast";
 
@@ -70,12 +69,13 @@ library DevOpsTools {
         view
         returns (address)
     {
-        for(uint256 i = 0; vm.keyExists(json, string.concat("$.transactions[", vm.toString(i), "]")); i++) {
+        for (uint256 i = 0; vm.keyExistsJson(json, string.concat("$.transactions[", vm.toString(i), "]")); i++) {
             string memory contractNamePath = string.concat("$.transactions[", vm.toString(i), "].contractName");
-            if (vm.keyExists(json, contractNamePath)) {
+            if (vm.keyExistsJson(json, contractNamePath)) {
                 string memory deployedContractName = json.readString(contractNamePath);
                 if (deployedContractName.isEqualTo(contractName)) {
-                    latestAddress = json.readAddress(string.concat("$.transactions[", vm.toString(i), "].contractAddress"));
+                    latestAddress =
+                        json.readAddress(string.concat("$.transactions[", vm.toString(i), "].contractAddress"));
                 }
             }
         }

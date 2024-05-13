@@ -4,13 +4,13 @@ A repo to get the most recent deployment from a given environment in foundry. Th
 
 It will look through your `broadcast` folder at your most recent deployment.
 
--   [foundry-devops](#foundry-devops)
--   [Getting Started](#getting-started)
-    -   [Requirements](#requirements)
-    -   [Installation](#installation)
-    -   [Usage](#usage)
--   [Contributing](#contributing)
-    -   [Testing](#testing)
+- [foundry-devops](#foundry-devops)
+- [Getting Started](#getting-started)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+- [Contributing](#contributing)
+  - [Testing](#testing)
 
 # Getting Started
 
@@ -63,6 +63,12 @@ function interactWithPreviouslyDeployedContracts() public {
     MyContract myContract = MyContract(contractAddress);
     myContract.doSomething();
 }
+```
+
+3. To work with aderyn as a script, also set `ffi` to true in your `foundry.toml`:
+
+```
+ffi = true
 ```
 
 # Contributing
