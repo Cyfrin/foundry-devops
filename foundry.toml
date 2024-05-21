@@ -6,6 +6,5 @@ fs_permissions = [
     { access = "read", path = "./broadcast" },
     { access = "read", path = "./reports" },
 ]
-# ffi = true
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config

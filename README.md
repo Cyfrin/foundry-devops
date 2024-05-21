@@ -37,7 +37,7 @@ git rm -rf lib/forge-std
  rm -rf lib/forge-std
 ```
 ```
- forge install foundry-rs/forge-std@v1.7.0 --no-commit
+ forge install foundry-rs/forge-std@v1.8.0 --no-commit
 ```
 
 ## Usage
@@ -63,12 +63,6 @@ function interactWithPreviouslyDeployedContracts() public {
     MyContract myContract = MyContract(contractAddress);
     myContract.doSomething();
 }
-```
-
-3. To work with aderyn as a script, also set `ffi` to true in your `foundry.toml`:
-
-```
-ffi = true
 ```
 
 # Contributing
