@@ -37,7 +37,7 @@ git rm -rf lib/forge-std
  rm -rf lib/forge-std
 ```
 ```
- forge install foundry-rs/forge-std@v1.7.0 --no-commit
+ forge install foundry-rs/forge-std@v1.8.0 --no-commit
 ```
 
 ## Usage
