@@ -6,5 +6,11 @@ fs_permissions = [
     { access = "read", path = "./broadcast" },
     { access = "read", path = "./reports" },
 ]
+ffi = true
 
-# See more config options https://github.com/foundry-rs/foundry/tree/master/config
+
+[rpc_endpoints]
+mainnet = "${MAINNET_RPC_URL}"
+zksync = "${ZKSYNC_RPC_URL}"
+
+# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

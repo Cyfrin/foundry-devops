@@ -4,13 +4,20 @@ A repo to get the most recent deployment from a given environment in foundry. Th
 
 It will look through your `broadcast` folder at your most recent deployment.
 
+## Features
+- Get the most recent deployment of a contract in foundry
+- Checking if your on a zkSync based chain
+
 - [foundry-devops](#foundry-devops)
+  - [Features](#features)
 - [Getting Started](#getting-started)
   - [Requirements](#requirements)
   - [Installation](#installation)
-  - [Usage](#usage)
+  - [Usage - Getting the most recent deployment](#usage---getting-the-most-recent-deployment)
+  - [Usage - zkSync Checker](#usage---zksync-checker)
 - [Contributing](#contributing)
   - [Testing](#testing)
+
 
 # Getting Started
 
@@ -25,7 +32,7 @@ It will look through your `broadcast` folder at your most recent deployment.
 
 ## Installation
 
-```
+```bash
 forge install Cyfrin/foundry-devops --no-commit
 ```
 
@@ -37,15 +44,18 @@ git rm -rf lib/forge-std
  rm -rf lib/forge-std
 ```
 ```
- forge install foundry-rs/forge-std@v1.8.0 --no-commit
+ forge install foundry-rs/forge-std@v1.8.2 --no-commit
 ```
 
-## Usage
+## Usage - Getting the most recent deployment
 
 1. Update your `foundry.toml` to have read permissions on the `broadcast` folder.
 
-```
-fs_permissions = [{ access = "read", path = "./broadcast" }]
+```toml
+fs_permissions = [
+    { access = "read", path = "./broadcast" },
+    { access = "read", path = "./reports" },
+]
 ```
 
 2. Import the package, and call `DevOpsTools.get_most_recent_deployment("MyContract", chainid);`
@@ -65,6 +75,57 @@ function interactWithPreviouslyDeployedContracts() public {
 }
 ```
 
+## Usage - zkSync Checker
+
+### Prerequisites
+- [foundry-zksync](https://github.com/matter-labs/foundry-zksync)
+  - You'll know you did it right if you can run `foundryup-zksync --help` and you see a response like:
+```
+The installer for Foundry-zksync.
+
+Update or revert to a specific Foundry-zksync version with ease.
+.
+.
+.
+```
+
+### Usage - ZkSyncChecker
+
+In your contract, you can import and inherit the abstract contract `ZkSyncChecker` to check if you are on a zkSync based chain. And add the `skipZkSync` modifier to any function you want to skip if you are on a zkSync based chain.
+
+It will check both the precompiles or the `chainid` to determine if you are on a zkSync based chain.
+
+```javascript
+import {ZkSyncChecker} from "lib/foundry-devops/src/ZkSyncChecker.sol";
+
+contract MyContract is ZkSyncChecker {
+
+  function doStuff() skipZkSync {
+```
+
+### ZkSyncChecker modifiers:
+- `skipZkSync`: Skips the function if you are on a zkSync based chain.
+- `onlyZkSync`: Only allows the function if you are on a zkSync based chain.
+  
+### ZkSync Checker Functions:
+- `isZkSyncChain()`: Returns true if you are on a zkSync based chain.
+- `isOnZkSyncPrecompiles()`: Returns true if you are on a zkSync based chain using the precompiles.
+- `isOnZkSyncChainId()`: Returns true if you are on a zkSync based chain using the chainid.
+
+### Usage - FoundryZkSyncChecker
+
+In your contract, you can import and inherit the abstract contract `FoundryZkSyncChecker` to check if you are on the `foundry-zksync` fork of `foundry`. 
+
+> !Important: Functions and modifiers in `FoundryZkSyncChecker` are only available if you run `foundry-zksync` with the `--zksync` flag.
+
+```javascript
+import {FoundryZkSyncChecker} from "lib/foundry-devops/src/FoundryZkSyncChecker.sol";
+
+contract MyContract is FoundryZkSyncChecker {
+
+  function doStuff() onlyFoundryZkSync {
+```
+
 # Contributing
 
 PRs are welcome!
@@ -77,6 +138,14 @@ forge install
 
 ## Testing
 
+For testing on vanilla foundry, run:
+
+```bash
+make test
 ```
-forge test
+
+For testing with `foundry-zksync`, run:
+
+```bash
+make test-zksync
 ```
