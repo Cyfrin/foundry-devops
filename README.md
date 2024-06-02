@@ -126,6 +126,8 @@ contract MyContract is FoundryZkSyncChainChecker {
   function doStuff() onlyFoundryZkSync {
 ```
 
+You must also add `ffi = true` to your `foundry.toml` to use this feature. 
+
 ### FoundryZkSync modifiers:
 - `onlyFoundryZkSync`: Only allows the function if you are on `foundry-zksync`
 - `onlyVanillaFoundry`: Only allows the function if you are on `foundry`
