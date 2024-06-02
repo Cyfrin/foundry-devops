@@ -112,14 +112,14 @@ contract MyContract is ZkSyncChainChecker {
 - `isOnZkSyncPrecompiles()`: Returns true if you are on a zkSync based chain using the precompiles.
 - `isOnZkSyncChainId()`: Returns true if you are on a zkSync based chain using the chainid.
 
-### Usage - FoundryZkSyncChainChecker
+### Usage - FoundryZkSyncChecker
 
-In your contract, you can import and inherit the abstract contract `FoundryZkSyncChainChecker` to check if you are on the `foundry-zksync` fork of `foundry`. 
+In your contract, you can import and inherit the abstract contract `FoundryZkSyncChecker` to check if you are on the `foundry-zksync` fork of `foundry`. 
 
-> !Important: Functions and modifiers in `FoundryZkSyncChainChecker` are only available if you run `foundry-zksync` with the `--zksync` flag.
+> !Important: Functions and modifiers in `FoundryZkSyncChecker` are only available if you run `foundry-zksync` with the `--zksync` flag.
 
 ```javascript
-import {FoundryZkSyncChainChecker} from "lib/foundry-devops/src/FoundryZkSyncChainChecker.sol";
+import {FoundryZkSyncChecker} from "lib/foundry-devops/src/FoundryZkSyncChecker.sol";
 
 contract MyContract is FoundryZkSyncChainChecker {
 
