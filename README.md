@@ -89,42 +89,49 @@ Update or revert to a specific Foundry-zksync version with ease.
 .
 ```
 
-### Usage - ZkSyncChecker
+### Usage - ZkSyncChainChecker
 
-In your contract, you can import and inherit the abstract contract `ZkSyncChecker` to check if you are on a zkSync based chain. And add the `skipZkSync` modifier to any function you want to skip if you are on a zkSync based chain.
+In your contract, you can import and inherit the abstract contract `ZkSyncChainChecker` to check if you are on a zkSync based chain. And add the `skipZkSync` modifier to any function you want to skip if you are on a zkSync based chain.
 
 It will check both the precompiles or the `chainid` to determine if you are on a zkSync based chain.
 
 ```javascript
-import {ZkSyncChecker} from "lib/foundry-devops/src/ZkSyncChecker.sol";
+import {ZkSyncChainChecker} from "lib/foundry-devops/src/ZkSyncChainChecker.sol";
 
-contract MyContract is ZkSyncChecker {
+contract MyContract is ZkSyncChainChecker {
 
   function doStuff() skipZkSync {
 ```
 
-### ZkSyncChecker modifiers:
+### ZkSyncChainChecker modifiers:
 - `skipZkSync`: Skips the function if you are on a zkSync based chain.
 - `onlyZkSync`: Only allows the function if you are on a zkSync based chain.
   
-### ZkSync Checker Functions:
+### ZkSyncChainChecker Functions:
 - `isZkSyncChain()`: Returns true if you are on a zkSync based chain.
 - `isOnZkSyncPrecompiles()`: Returns true if you are on a zkSync based chain using the precompiles.
 - `isOnZkSyncChainId()`: Returns true if you are on a zkSync based chain using the chainid.
 
-### Usage - FoundryZkSyncChecker
+### Usage - FoundryZkSyncChainChecker
 
-In your contract, you can import and inherit the abstract contract `FoundryZkSyncChecker` to check if you are on the `foundry-zksync` fork of `foundry`. 
+In your contract, you can import and inherit the abstract contract `FoundryZkSyncChainChecker` to check if you are on the `foundry-zksync` fork of `foundry`. 
 
-> !Important: Functions and modifiers in `FoundryZkSyncChecker` are only available if you run `foundry-zksync` with the `--zksync` flag.
+> !Important: Functions and modifiers in `FoundryZkSyncChainChecker` are only available if you run `foundry-zksync` with the `--zksync` flag.
 
 ```javascript
-import {FoundryZkSyncChecker} from "lib/foundry-devops/src/FoundryZkSyncChecker.sol";
+import {FoundryZkSyncChainChecker} from "lib/foundry-devops/src/FoundryZkSyncChainChecker.sol";
 
-contract MyContract is FoundryZkSyncChecker {
+contract MyContract is FoundryZkSyncChainChecker {
 
   function doStuff() onlyFoundryZkSync {
 ```
+
+### FoundryZkSync modifiers:
+- `onlyFoundryZkSync`: Only allows the function if you are on `foundry-zksync`
+- `onlyVanillaFoundry`: Only allows the function if you are on `foundry`
+
+### FoundryZkSync Functions:
+- `is_foundry_zksync`: Returns true if you are on `foundry-zksync`
 
 # Contributing
 
