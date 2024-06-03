@@ -135,17 +135,8 @@ You must also add `ffi = true` to your `foundry.toml` to use this feature.
 ### FoundryZkSync Functions:
 - `is_foundry_zksync`: Returns true if you are on `foundry-zksync`
 
-# Contributing
 
-PRs are welcome!
-
-```
-git clone https://github.com/Cyfrin/foundry-devops
-cd foundry-devops
-forge install
-```
-
-## Testing
+# Testing
 
 For testing on vanilla foundry, run:
 
@@ -157,4 +148,17 @@ For testing with `foundry-zksync`, run:
 
 ```bash
 make test-zksync
+```
+
+# Limitations
+- You cannot deploy a contract with `FoundryZkSyncChainChecker` or `ZkSyncChainChecker` because `foundry-zksync` gets confused by a lot of cheatcodes, and doesn't recognize cheatcodes after compiling to the EraVM. 
+
+# Contributing
+
+PRs are welcome!
+
+```
+git clone https://github.com/Cyfrin/foundry-devops
+cd foundry-devops
+make
 ```
