@@ -121,7 +121,7 @@ In your contract, you can import and inherit the abstract contract `FoundryZkSyn
 ```javascript
 import {FoundryZkSyncChecker} from "lib/foundry-devops/src/FoundryZkSyncChecker.sol";
 
-contract MyContract is FoundryZkSyncChainChecker {
+contract MyContract is FoundryZkSyncChecker {
 
   function doStuff() onlyFoundryZkSync {
 ```
