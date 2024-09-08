@@ -35,7 +35,16 @@ contract DevOpsToolsTest is Test, ZkSyncChainChecker, FoundryZkSyncChecker {
     function testExpectRevertIfNoDeployment() public skipZkSync onlyVanillaFoundry {
         string memory contractName = "MissingContract";
         uint256 chainId = 1234;
-        vm.expectRevert("No contract deployed");
+        vm.expectRevert(
+            bytes.concat(
+                "No contract named ",
+                "'",
+                bytes(contractName),
+                "'",
+                " has been deployed on chain ",
+                bytes(vm.toString(chainId))
+            )
+        );
         DevOpsTools.get_most_recent_deployment(contractName, chainId, SEARCH_PATH);
     }
 
