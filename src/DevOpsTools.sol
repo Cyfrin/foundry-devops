@@ -60,7 +60,11 @@ library DevOpsTools {
         if (latestAddress != address(0)) {
             return latestAddress;
         } else {
-            revert("No contract deployed");
+            revert(
+                string.concat(
+                    "No contract named ", "'", contractName, "'", " has been deployed on chain ", vm.toString(chainId)
+                )
+            );
         }
     }
 
