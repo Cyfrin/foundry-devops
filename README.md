@@ -6,7 +6,7 @@ It will look through your `broadcast` folder at your most recent deployment.
 
 ## Features
 - Get the most recent deployment of a contract in foundry
-- Checking if your on a zkSync based chain
+- Checking if you're on a zkSync based chain
 
 - [foundry-devops](#foundry-devops)
   - [Features](#features)
