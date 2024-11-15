@@ -2,10 +2,10 @@
 
 pragma solidity >=0.8.13 <0.9.0;
 
-import {Vm} from "forge-std/Vm.sol";
-import {stdJson} from "forge-std/StdJson.sol";
-import {StdCheatsSafe} from "forge-std/StdCheats.sol";
-import {console} from "forge-std/console.sol";
+import {Vm} from "lib/forge-std/src/Vm.sol";
+import {stdJson} from "lib/forge-std/src/StdJson.sol";
+import {StdCheatsSafe} from "lib/forge-std/src/StdCheats.sol";
+import {console} from "lib/forge-std/src/console.sol";
 import {StringUtils} from "./StringUtils.sol";
 
 library DevOpsTools {
