@@ -31,6 +31,17 @@ library DevOpsTools {
         bool runProcessed;
         Vm.DirEntry[] memory entries = vm.readDir(relativeBroadcastPath, 3);
         for (uint256 i = 0; i < entries.length; i++) {
+            string memory normalizedPath = normalizePath(entries[i].path);
+            if (
+                normalizedPath.contains(string.concat("/", vm.toString(chainId), "/"))
+                    && normalizedPath.contains(".json") && !normalizedPath.contains("dry-run")
+            ) {
+                string memory json = vm.readFile(normalizedPath);
+                uint256 timestamp = vm.parseJsonUint(json, ".timestamp");
+                latestAddress = processRun(json, contractName, latestAddress);
+            }
+        }
+        for (uint256 i = 0; i < entries.length; i++) {
             Vm.DirEntry memory entry = entries[i];
             if (
                 entry.path.contains(string.concat("/", vm.toString(chainId), "/")) && entry.path.contains(".json")
@@ -85,5 +96,16 @@ library DevOpsTools {
         }
 
         return latestAddress;
+    }
+
+    function normalizePath(string memory path) internal pure returns (string memory) {
+        // Replace backslashes with forward slashes
+        bytes memory b = bytes(path);
+        for (uint256 i = 0; i < b.length; i++) {
+            if (b[i] == "\\") {
+                b[i] = "/";
+            }
+        }
+        return string(b);
     }
 }
