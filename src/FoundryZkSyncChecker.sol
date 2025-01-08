@@ -5,8 +5,12 @@ import {Test, console2} from "forge-std/Test.sol";
 
 // We have to label it a test so foundry-zksync doesn't get confused
 abstract contract FoundryZkSyncChecker is Test {
+    // cast from-utf8 "forge 0.0.2"
     bytes constant FORGE_VERSION_0_0_2 = hex"666f72676520302e302e32";
+    // cast from-utf8 "forge 0.2.0"
     bytes constant FORGE_VERSION_0_2_0 = hex"666f72676520302e322e30";
+    // cast from-utf8 "forge 0.3.0"
+    bytes constant FORGE_VERSION_0_3_0 = hex"666f72676520302e332e30";
     uint256 constant PREFIX_LENGTH = 11;
 
     error FoundryZkSyncChecker__UnknownFoundryVersion();
@@ -28,10 +32,15 @@ abstract contract FoundryZkSyncChecker is Test {
         string memory forgePrefixedStr = string(forgeVersionPrefixed);
         console2.log("Got forge version:", forgePrefixedStr);
 
-        if (bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_2_0)) {
+        if (
+            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_2_0) ||
+            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_3_0)
+        ) {
             console2.log("This is Vanilla Foundry");
             return false;
-        } else if (bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_0_2)) {
+        } else if (
+            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_0_2)
+        ) {
             console2.log("This is Foundry ZkSync");
             return true;
         }
