@@ -11,7 +11,13 @@ abstract contract FoundryZkSyncChecker is Test {
     bytes constant FORGE_VERSION_0_2_0 = hex"666f72676520302e322e30";
     // cast from-utf8 "forge 0.3.0"
     bytes constant FORGE_VERSION_0_3_0 = hex"666f72676520302e332e30";
-    uint256 constant PREFIX_LENGTH = 11;
+
+    // cast from-utf8 "forge Version: 0.3"
+    bytes constant POST_THREE_FORGE_VERSION =
+        hex"666f7267652056657273696f6e3a20302e33"; // forge Version: 0.3
+
+    uint256 constant PRIOR_TO_THREE_PREFIX_LENGTH = 11;
+    uint256 constant POST_THREE_PREFIX_LENGTH = 18;
 
     error FoundryZkSyncChecker__UnknownFoundryVersion();
 
@@ -25,8 +31,17 @@ abstract contract FoundryZkSyncChecker is Test {
         bytes memory retData = vm.ffi(forgeVersionCommand);
         console2.logBytes(retData);
 
-        bytes memory forgeVersionPrefixed = new bytes(PREFIX_LENGTH);
-        for (uint256 i = 0; i < PREFIX_LENGTH; i++) {
+        uint256 prefix_length = POST_THREE_PREFIX_LENGTH;
+        for (uint i = 0; i < POST_THREE_PREFIX_LENGTH; i++) {
+            if (retData[i] != POST_THREE_FORGE_VERSION[i]) {
+                prefix_length = PRIOR_TO_THREE_PREFIX_LENGTH;
+                break;
+            }
+        }
+
+        bytes memory forgeVersionPrefixed = new bytes(prefix_length);
+
+        for (uint256 i = 0; i < prefix_length; i++) {
             forgeVersionPrefixed[i] = retData[i];
         }
         string memory forgePrefixedStr = string(forgeVersionPrefixed);
@@ -34,7 +49,8 @@ abstract contract FoundryZkSyncChecker is Test {
 
         if (
             bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_2_0) ||
-            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_3_0)
+            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_3_0) ||
+            bytes32(forgeVersionPrefixed) == bytes32(POST_THREE_FORGE_VERSION)
         ) {
             console2.log("This is Vanilla Foundry");
             return false;
