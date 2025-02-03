@@ -7,14 +7,17 @@ import {Test, console2} from "forge-std/Test.sol";
 abstract contract FoundryZkSyncChecker is Test {
     // cast from-utf8 "forge 0.0.2"
     bytes constant FORGE_VERSION_0_0_2 = hex"666f72676520302e302e32";
+    // cast from-utf8 "forge 0.0.4"
+    bytes constant FORGE_VERSION_0_0_4 = hex"666f72676520302e302e34";
     // cast from-utf8 "forge 0.2.0"
     bytes constant FORGE_VERSION_0_2_0 = hex"666f72676520302e322e30";
     // cast from-utf8 "forge 0.3.0"
     bytes constant FORGE_VERSION_0_3_0 = hex"666f72676520302e332e30";
 
     // cast from-utf8 "forge Version: 0.3"
-    bytes constant POST_THREE_FORGE_VERSION =
-        hex"666f7267652056657273696f6e3a20302e33"; // forge Version: 0.3
+    bytes constant POST_THREE_FORGE_VERSION = hex"666f7267652056657273696f6e3a20302e33"; // forge Version: 0.3
+    // cast from-utf8 "forge Version: 1.0"
+    bytes constant STABLE_ONE_VERSION = hex"666f7267652056657273696f6e3a20312e30"; // forge Version: 1.0
 
     uint256 constant PRIOR_TO_THREE_PREFIX_LENGTH = 11;
     uint256 constant POST_THREE_PREFIX_LENGTH = 18;
@@ -32,10 +35,20 @@ abstract contract FoundryZkSyncChecker is Test {
         console2.logBytes(retData);
 
         uint256 prefix_length = POST_THREE_PREFIX_LENGTH;
-        for (uint i = 0; i < POST_THREE_PREFIX_LENGTH; i++) {
+        for (uint256 i = 0; i < POST_THREE_PREFIX_LENGTH; i++) {
             if (retData[i] != POST_THREE_FORGE_VERSION[i]) {
                 prefix_length = PRIOR_TO_THREE_PREFIX_LENGTH;
                 break;
+            }
+        }
+
+        if (prefix_length != POST_THREE_PREFIX_LENGTH) {
+            prefix_length = POST_THREE_PREFIX_LENGTH;
+            for (uint256 i = 0; i < POST_THREE_PREFIX_LENGTH; i++) {
+                if (retData[i] != STABLE_ONE_VERSION[i]) {
+                    prefix_length = PRIOR_TO_THREE_PREFIX_LENGTH;
+                    break;
+                }
             }
         }
 
@@ -48,14 +61,16 @@ abstract contract FoundryZkSyncChecker is Test {
         console2.log("Got forge version:", forgePrefixedStr);
 
         if (
-            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_2_0) ||
-            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_3_0) ||
-            bytes32(forgeVersionPrefixed) == bytes32(POST_THREE_FORGE_VERSION)
+            bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_2_0)
+                || bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_3_0)
+                || bytes32(forgeVersionPrefixed) == bytes32(POST_THREE_FORGE_VERSION)
+                || bytes32(forgeVersionPrefixed) == bytes32(STABLE_ONE_VERSION)
         ) {
             console2.log("This is Vanilla Foundry");
             return false;
         } else if (
             bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_0_2)
+                || bytes32(forgeVersionPrefixed) == bytes32(FORGE_VERSION_0_0_4)
         ) {
             console2.log("This is Foundry ZkSync");
             return true;

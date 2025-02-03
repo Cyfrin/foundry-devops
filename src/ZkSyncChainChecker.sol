@@ -23,9 +23,8 @@ abstract contract ZkSyncChainChecker {
         address ripemd = address(uint160(3));
         address identity = address(uint160(4));
         address modexp = address(uint160(5));
-        address ecPairing = address(uint160(8));
 
-        address[4] memory targets = [ripemd, identity, modexp, ecPairing];
+        address[3] memory targets = [ripemd, identity, modexp];
 
         for (uint256 i = 0; i < targets.length; i++) {
             bool success;
