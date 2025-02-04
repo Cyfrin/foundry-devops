@@ -16,12 +16,21 @@ library DevOpsTools {
 
     string public constant RELATIVE_BROADCAST_PATH = "./broadcast";
 
+    function get_most_recent_deployment(string memory contractName, string memory contractArgument, uint256 chainId)
+        internal
+        view
+        returns (address)
+    {
+        return get_most_recent_deployment(contractName, contractArgument, chainId, RELATIVE_BROADCAST_PATH);
+    }
+
     function get_most_recent_deployment(string memory contractName, uint256 chainId) internal view returns (address) {
-        return get_most_recent_deployment(contractName, chainId, RELATIVE_BROADCAST_PATH);
+        return get_most_recent_deployment(contractName, "", chainId, RELATIVE_BROADCAST_PATH);
     }
 
     function get_most_recent_deployment(
         string memory contractName,
+        string memory contractArgument,
         uint256 chainId,
         string memory relativeBroadcastPath
     ) internal view returns (address) {
@@ -52,7 +61,7 @@ library DevOpsTools {
                 uint256 timestamp = vm.parseJsonUint(json, ".timestamp");
 
                 if (timestamp > lastTimestamp) {
-                    latestAddress = processRun(json, contractName, latestAddress);
+                    latestAddress = processRun(json, contractName, contractArgument, latestAddress);
 
                     // If we have found some deployed contract, update the timestamp
                     // Otherwise, the earliest deployment may have been before `lastTimestamp` and we should not update
@@ -78,18 +87,46 @@ library DevOpsTools {
         }
     }
 
-    function processRun(string memory json, string memory contractName, address latestAddress)
-        internal
-        view
-        returns (address)
-    {
+    function processRun(
+        string memory json,
+        string memory contractName,
+        string memory contractArgument,
+        address latestAddress
+    ) internal view returns (address) {
+        bytes memory contractArgumentBytes = bytes(contractArgument);
+
         for (uint256 i = 0; vm.keyExistsJson(json, string.concat("$.transactions[", vm.toString(i), "]")); i++) {
             string memory contractNamePath = string.concat("$.transactions[", vm.toString(i), "].contractName");
             if (vm.keyExistsJson(json, contractNamePath)) {
                 string memory deployedContractName = json.readString(contractNamePath);
                 if (deployedContractName.isEqualTo(contractName)) {
-                    latestAddress =
-                        json.readAddress(string.concat("$.transactions[", vm.toString(i), "].contractAddress"));
+                    if (
+                        contractArgumentBytes.length > 0
+                            && vm.keyExistsJson(json, string.concat("$.transactions[", vm.toString(i), "].arguments[0]"))
+                    ) {
+                        for (
+                            uint256 y = 0;
+                            vm.keyExistsJson(
+                                json,
+                                string.concat("$.transactions[", vm.toString(i), "].arguments[", vm.toString(y), "]")
+                            );
+                            y++
+                        ) {
+                            string memory contractArgumentPath =
+                                string.concat("$.transactions[", vm.toString(i), "].arguments[", vm.toString(y), "]");
+                            if (vm.keyExistsJson(json, contractArgumentPath)) {
+                                string memory deployedContractArgument = json.readString(contractArgumentPath);
+                                if (deployedContractArgument.isEqualTo(contractArgument)) {
+                                    latestAddress = json.readAddress(
+                                        string.concat("$.transactions[", vm.toString(i), "].contractAddress")
+                                    );
+                                }
+                            }
+                        }
+                    } else {
+                        latestAddress =
+                            json.readAddress(string.concat("$.transactions[", vm.toString(i), "].contractAddress"));
+                    }
                 }
             }
         }
