@@ -4,14 +4,14 @@ pragma solidity ^0.8.18;
 import {console2} from "forge-std/console2.sol";
 
 abstract contract ZkSyncChainChecker {
-    uint256 zkSyncMainnetChainId = 324;
-    uint256 zkSyncSepoliaChainId = 300;
-    uint256 zkSyncInMemoryNodeChainId = 260;
+    uint256 constant ZKSYNC_MAINNET_CHAIN_ID = 324;
+    uint256 constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
+    uint256 constant ZKSYNC_IN_MEMORY_NODE_CHAIN_ID = 260;
 
     function isOnZkSyncChainId() public view returns (bool) {
         // We can make a "dummy" check by looking at the chainId, but this won't work for when working with foundry
-        return block.chainid == zkSyncMainnetChainId || block.chainid == zkSyncSepoliaChainId
-            || block.chainid == zkSyncInMemoryNodeChainId;
+        return block.chainid == ZKSYNC_MAINNET_CHAIN_ID || block.chainid == ZKSYNC_SEPOLIA_CHAIN_ID
+            || block.chainid == ZKSYNC_IN_MEMORY_NODE_CHAIN_ID;
     }
 
     function isOnZkSyncPrecompiles() public returns (bool isZkSync) {
