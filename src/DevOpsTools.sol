@@ -101,7 +101,7 @@ library DevOpsTools {
         // Replace backslashes with forward slashes
         bytes memory b = bytes(path);
         for (uint256 i = 0; i < b.length; i++) {
-            if (b[i] == "\\") {
+            if (b[i] == bytes1("\\")) {
                 b[i] = "/";
             }
         }
