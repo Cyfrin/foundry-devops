@@ -36,7 +36,7 @@ It will look through your `broadcast` folder at your most recent deployment.
 ## Installation
 
 ```bash
-forge install Cyfrin/foundry-devops --no-commit
+forge install Cyfrin/foundry-devops
 ```
 
 - Update forge-std to use newer FS cheatcodes
@@ -47,7 +47,7 @@ git rm -rf lib/forge-std
  rm -rf lib/forge-std
 ```
 ```
- forge install foundry-rs/forge-std@v1.8.2 --no-commit
+ forge install foundry-rs/forge-std@v1.8.2 
 ```
 
 ## Usage - Getting the most recent deployment
