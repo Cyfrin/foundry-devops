@@ -15,6 +15,46 @@ library DevOpsTools {
     Vm public constant vm = Vm(address(uint160(uint256(keccak256("hevm cheat code")))));
 
     string public constant RELATIVE_BROADCAST_PATH = "./broadcast";
+    string public constant RELATIVE_OUT_PATH = "./out";
+
+    function routeArtifacts(
+        string memory contractName,
+        string memory destinationPath,
+        string memory fileName,
+        bool recursive
+    ) internal {
+        if (contractName.isEqualTo("") || destinationPath.isEqualTo("") || fileName.isEqualTo("")) {
+            revert("Empty string is not allowed");
+        }
+
+        if (!vm.isDir(string.concat(RELATIVE_OUT_PATH, "/", contractName, ".sol"))) {
+            revert(string.concat("Contract ", "'", contractName, "'", " not found"));
+        }
+
+        string memory normalizedPath = normalizePath(destinationPath);
+        if (!vm.isDir(normalizedPath)) vm.createDir(normalizedPath, recursive);
+        string memory data =
+            vm.readFile(string.concat(RELATIVE_OUT_PATH, "/", contractName, ".sol", "/", contractName, ".json"));
+        vm.writeFile(string.concat(normalizedPath, "/", fileName), data);
+    }
+
+    function routeArtifacts(
+        string[] memory contracts,
+        string[] memory paths,
+        string[] memory files,
+        bool[] memory flags
+    ) internal {
+        if (contracts.length == 0 || paths.length == 0 || files.length == 0 || flags.length == 0) {
+            revert("The length of the arrays cannot be zero");
+        }
+        if (contracts.length != paths.length) revert("Arrays length must match");
+        if (contracts.length != files.length) revert("Arrays length must match");
+        if (contracts.length != flags.length) revert("Arrays length must match");
+
+        for (uint256 i = 0; i < contracts.length; i++) {
+            routeArtifacts(contracts[i], paths[i], files[i], flags[i]);
+        }
+    }
 
     function get_most_recent_deployment(string memory contractName, uint256 chainId) internal view returns (address) {
         return get_most_recent_deployment(contractName, chainId, RELATIVE_BROADCAST_PATH);
