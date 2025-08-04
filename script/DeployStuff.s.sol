@@ -2,12 +2,7 @@
 pragma solidity ^0.8.19;
 
 import {Script} from "forge-std/Script.sol";
-
-contract Stuff {
-    function getSeven() public pure returns (uint256) {
-        return 7;
-    }
-}
+import {Stuff} from "../src/mocks/Stuff.sol";
 
 contract DeployStuff is Script {
     function run() external {
