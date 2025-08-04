@@ -21,3 +21,6 @@ reports/*.*
 
 # zkSync
 zkout/
+
+# Dev
+folder/
