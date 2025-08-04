@@ -5,6 +5,9 @@ libs = ["lib"]
 fs_permissions = [
     { access = "read", path = "./broadcast" },
     { access = "read", path = "./reports" },
+    { access = "read", path = "./out" },
+    { access = "read-write", path = "./folder" },
+    { access = "read-write", path = "../" },
 ]
 ffi = true
 
