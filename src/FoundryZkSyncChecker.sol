@@ -35,7 +35,7 @@ abstract contract FoundryZkSyncChecker is Test {
     error FoundryZkSyncChecker__UnknownFoundryVersion();
 
     /**
-     * @notice returns the current version of foundry.
+     * @notice returns if the foundry version is foundry-zksync or not.
      */
     function is_foundry_zksync() public returns (bool) {
         string[] memory forgeVersionCommand = new string[](2);
@@ -43,6 +43,15 @@ abstract contract FoundryZkSyncChecker is Test {
         forgeVersionCommand[1] = "--version";
         bytes memory retData = vm.ffi(forgeVersionCommand);
         console2.logBytes(retData);
+
+        string memory forgeVersionStr = string(retData);
+        bytes memory forgeVersionInLowerCase = _convertBytesToLowerCase(retData);
+
+        // Check for `zksync`substring in the forge version string
+        if (_containsSubstring(forgeVersionInLowerCase, bytes("zksync"))) {
+            console2.log("This is Foundry ZkSync");
+            return true;
+        }
 
         uint256 prefix_length = POST_THREE_PREFIX_LENGTH;
         for (uint256 i = 0; i < POST_THREE_PREFIX_LENGTH; i++) {
@@ -68,7 +77,7 @@ abstract contract FoundryZkSyncChecker is Test {
             forgeVersionPrefixed[i] = retData[i];
         }
         string memory forgePrefixedStr = string(forgeVersionPrefixed);
-        console2.log("Got forge version:", forgePrefixedStr);
+        console2.log("Got forge version:", forgeVersionStr);
 
         console2.logBytes32(bytes32(forgeVersionPrefixed));
         console2.logBytes32(bytes32(FORGE_VERSION_0_3_));
@@ -87,6 +96,41 @@ abstract contract FoundryZkSyncChecker is Test {
         }
         console2.log("Unknown forge version");
         revert FoundryZkSyncChecker__UnknownFoundryVersion();
+    }
+
+    // Helper function to convert bytes to lowercase
+    function _convertBytesToLowerCase(bytes memory data) private pure returns (bytes memory) {
+            bytes memory result = new bytes(data.length);
+            for (uint256 i = 0; i < data.length; i++) {
+                // Convert uppercase A-Z (65-90) to lowercase a-z (97-122)
+                if (data[i] >= 0x41 && data[i] <= 0x5A) {
+                    result[i] = bytes1(uint8(data[i]) + 32);
+                } else {
+                    result[i] = data[i];
+                }
+            }
+            return result;
+    }
+
+    // Helper function to check if `data` contains `substring`
+    function _containsSubstring(bytes memory data, bytes memory substring) private pure returns (bool) {
+        if (data.length < substring.length) {
+            return false;
+        }
+
+        for (uint256 i = 0; i <= data.length - substring.length; i++) {
+            bool found = true;
+            for (uint256 j = 0; j < substring.length; j++) {
+                if (data[i + j] != substring[j]) {
+                    found = false;
+                    break;
+                }
+            }
+            if (found) {
+                return true;
+            }
+        }
+        return false;
     }
 
     modifier onlyFoundryZkSync() {
